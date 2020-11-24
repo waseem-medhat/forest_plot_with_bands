@@ -1,0 +1,18 @@
+text {
+  fill: #222;
+  font-family: sans-serif;
+}
+
+.mark {
+  fill: #333;
+}
+
+line.mark {
+  stroke: #333;
+  stroke-width: 2;
+}
+
+.heterogeneity-band {
+	fill: #067;
+	mix-blend-mode: multiply;
+}
