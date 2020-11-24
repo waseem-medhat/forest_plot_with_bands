@@ -1,9 +1,6 @@
 library(shiny)
 library(r2d3)
 
-metadata_or <- readRDS('data/metadata_or.rds')
-metadata_rr <- readRDS('data/metadata_rr.rds')
-
 ui <- fluidPage(
   
   div(
@@ -19,11 +16,23 @@ ui <- fluidPage(
         'summary_measure',
         label = 'Choose summary measure:',
         choices = list('Odds Ratio' = 'or', 'Risk Ratio' = 'rr')
-      )
+      ),
+      hr(),
+      actionButton('visualize', 'Visualize')
     ),
     mainPanel(
       width = 9,
-      fluidRow(column(width = 10, offset = 1, d3Output('forest')))
+      fluidRow(
+        column(
+          width = 10,
+          offset = 1,
+          div(
+            id ='forestContainer',
+            style = 'height: 400px;',
+            d3Output('d3Forest')
+          )
+        )
+      )
     )
   ),
   hr(),
@@ -46,9 +55,26 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  output$forest <- renderD3(
-    r2d3(metadata_rr, 'src/forestWithBands.js')
-  )
+  metadata <- eventReactive(input$visualize, {
+    readRDS(
+      sprintf('data/metadata_%s.rds', input$summary_measure)
+    )
+  })
+  
+  observeEvent(input$visualize, {
+    removeUI('#d3Forest')
+    insertUI(
+      selector = '#forestContainer',
+      where = 'beforeEnd',
+      ui = d3Output('d3Forest')
+    )
+    
+    output$d3Forest <- renderD3({
+      r2d3(metadata(), script = 'src/forestWithBands.js')
+    })
+    
+  })
+  
 }
 
 shinyApp(ui = ui, server = server)
