@@ -17,8 +17,8 @@ const xMin = d3.min(data, (d) => d.lo)
 
 const xScale = d3.scaleLog()
   .domain([
-    xMin > 1 ? 0.5 : xMin,
-    xMax < 1 ? 10 : xMax
+    xMin > 1 ? (1 - (xMax - xMin)) : xMin,
+    xMax < 1 ? (1 + (xMax - xMin)) : xMax
   ])
   .range([0, innerWidth]);
 
