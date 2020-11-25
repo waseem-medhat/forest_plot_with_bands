@@ -7,7 +7,7 @@
 // NOTE: This script is built to be used with R through the package R2D3 as
 //       it depends on values provided by the package (svg, width, height)
 
-const margin = { top: 35, right: 20, bottom: 30, left: 350 };
+const margin = { top: 35, right: 20, bottom: 50, left: 350 };
 const innerWidth = width - margin.right - margin.left;
 const innerHeight = height - margin.top - margin.bottom;
 const innerLeftMargin = margin.left - 20
@@ -29,7 +29,7 @@ const yScale = d3.scalePoint()
 
 const widthScale = d3.scaleLinear()
   .domain(d3.extent(data, d => d.n))
-  .range([10, 20])
+  .range([10, 17])
   
 const plotG = svg
   .append('g')
@@ -144,6 +144,14 @@ plotG
   .attr('x2', innerWidth)
   .attr('stroke', '#555')
   .attr('stroke-width', 2)
+
+plotG
+  .append('text')
+  .attr('transform', `translate(0,${innerHeight + 30})`)
+  .attr('x1', -innerLeftMargin)
+  .attr('x2', innerWidth)
+  .attr('dy', '0.32em')
+  .text('⟵ Favors treatment')
 
 //
 // x axis text

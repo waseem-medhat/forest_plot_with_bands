@@ -21,20 +21,32 @@ ui <- fluidPage(
     helper(
       h3('Forest Plot with Heterogeneity Bands'),
       content = 'interpretation',
-      colour = 'teal'
+      colour = 'teal',
+      size = 'l',
+      buttonLabel = 'OK'
     )
   ),
   
   sidebarLayout(
     sidebarPanel(
+      h4('Treatment group'),
+      p('Intensive antihypertensive therapy'),
+      hr(),
+      h4('Control group'),
+      p('Standard of care'),
+      hr(),
+      h4('Outcome measure'),
+      p('Responder analysis - patients with controlled systolic blood pressure at 1-Year (<=120 mmHg)'),
+      hr(),
       radioButtons(
         'summary_measure',
         label = 'Choose summary measure:',
-        choices = list('Odds Ratio' = 'or', 'Risk Ratio' = 'rr')
+        choices = list('Odds ratio' = 'or', 'Risk ratio' = 'rr')
       ),
       hr(),
       actionButton('visualize', 'Visualize')
     ),
+    
     mainPanel(
       fluidRow(
         div(
@@ -44,7 +56,7 @@ ui <- fluidPage(
         )
       )
     )
-  ),
+  )
 )
 
 server <- function(input, output) {
