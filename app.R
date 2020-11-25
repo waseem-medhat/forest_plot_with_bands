@@ -5,7 +5,15 @@ library(shinyhelper)
 
 ui <- fluidPage(
   theme = shinytheme('united'),
-  style = 'margin: 10px 20px;',
+  #style = 'margin: 10px 20px;',
+  tags$style('
+    body {
+      margin: 10px 20px;
+    }
+    .shinyhelper-container i {
+      font-size: 20px;
+    }
+  '),
   
   div(
     class = 'page-header',
@@ -13,7 +21,7 @@ ui <- fluidPage(
     helper(
       h3('Forest Plot with Heterogeneity Bands'),
       content = 'interpretation',
-      size = 'l'
+      colour = 'teal'
     )
   ),
   
