@@ -60,7 +60,10 @@ ui <- fluidPage(
         hr(),
         tags$footer(
           'Built by Waseem Medhat for ',
-          a('Wonderful Wednesday', href = 'https://github.com/VIS-SIG/Wonderful-Wednesdays/tree/master/data/2020/2020-11-11')
+          a(
+            'Wonderful Wednesdays',
+            href = 'https://psiweb.org/sigs-special-interest-groups/visualisation/welcome-to-wonderful-wednesdays'
+          )
         )
       )
     )
