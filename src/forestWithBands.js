@@ -118,7 +118,7 @@ plotG
   .attr('y', -20)
   .attr('dy', '0.32em')
   .attr('text-anchor', 'end')
-  .text('⟵ Favors treatment')
+  .html('&#129144; Favors treatment')
 
 //
 // stat label
