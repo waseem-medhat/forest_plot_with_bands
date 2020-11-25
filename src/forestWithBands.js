@@ -114,11 +114,12 @@ plotG
 
 plotG
   .append('text')
-  .attr('x', innerWidth)
+  .attr('x', xScale(1))
   .attr('y', -20)
   .attr('dy', '0.32em')
   .attr('text-anchor', 'end')
-  .html('&#129144; Favors treatment')
+  .attr('font-size', '0.9em')
+  .html('&#8592; Favors intensive therapy')
 
 //
 // stat label
