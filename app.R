@@ -5,13 +5,17 @@ library(shinyhelper)
 
 ui <- fluidPage(
   theme = shinytheme('united'),
-  #style = 'margin: 10px 20px;',
+
   tags$style('
     body {
       margin: 10px 20px;
     }
     .shinyhelper-container i {
       font-size: 20px;
+    }
+    footer {
+      padding: 5px;
+      text-align: right;
     }
   '),
   
@@ -22,7 +26,6 @@ ui <- fluidPage(
       h3('Forest Plot with Heterogeneity Bands'),
       content = 'interpretation',
       colour = 'teal',
-      size = 'l',
       buttonLabel = 'OK'
     )
   ),
@@ -36,7 +39,7 @@ ui <- fluidPage(
       p('Standard of care'),
       hr(),
       h4('Outcome measure'),
-      p('Responder analysis - patients with controlled systolic blood pressure at 1-Year (<=120 mmHg)'),
+      p('Responder analysis - patients with controlled systolic blood pressure at 1 year (≤ 120 mmHg)'),
       hr(),
       radioButtons(
         'summary_measure',
@@ -51,8 +54,13 @@ ui <- fluidPage(
       fluidRow(
         div(
           id ='forestContainer',
-          style = 'height: 400px;',
+          style = 'height: 420px;',
           d3Output('d3Forest')
+        ),
+        hr(),
+        tags$footer(
+          'Built by Waseem Medhat for ',
+          a('Wonderful Wednesday', href = 'https://github.com/VIS-SIG/Wonderful-Wednesdays/tree/master/data/2020/2020-11-11')
         )
       )
     )
@@ -73,7 +81,7 @@ server <- function(input, output) {
     insertUI(
       selector = '#forestContainer',
       where = 'beforeEnd',
-      ui = d3Output('d3Forest')
+      ui = d3Output('d3Forest', height = '420px')
     )
     
     output$d3Forest <- renderD3({
