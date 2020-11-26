@@ -9,10 +9,14 @@
 
 // DEMO: https://waseem-medhat.shinyapps.io/forest_plot_with_bands/
 
-const margin = { top: 35, right: 20, bottom: 30, left: 350 };
+const margin = { top: 135, right: 20, bottom: 30, left: 350 };
 const innerWidth = width - margin.right - margin.left;
 const innerHeight = height - margin.top - margin.bottom;
 const innerLeftMargin = margin.left - 20
+
+const statOffset = -20
+const titleOffset = -100
+const subtitleOffset = -70
 
 const xMax = d3.max(data, (d) => d.hi)
 const xMin = d3.min(data, (d) => d.lo)
@@ -36,6 +40,36 @@ const widthScale = d3.scaleLinear()
 const plotG = svg
   .append('g')
   .attr('transform', `translate(${margin.left},${margin.top})`);
+
+//
+// title
+//
+plotG
+  .append('text')
+  .attr('x', -innerLeftMargin)
+  .attr('y', titleOffset)
+  .attr('font-size', '1.5em')
+  .attr('font-weight', 'bold')
+  .text('Intensive antihypertensive therapy versus standard of care')
+
+//
+// subtitle
+//
+plotG
+  .append('text')
+  .attr('x', -innerLeftMargin)
+  .attr('y', subtitleOffset)
+  .attr('font-size', '1.1em')
+  .text('Responder analysis - patients with controlled systolic blood pressure at 1 year')
+
+plotG
+  .append('text')
+  .attr('x', -innerLeftMargin)
+  .attr('y', subtitleOffset)
+  .attr('dy', '1.2em')
+  .attr('font-size', '1.1em')
+  .text('(≤ 120 mmHg)')
+
 
 //
 // upper line
@@ -110,14 +144,14 @@ plotG
   .append('text')
   .text('Study ID')
   .attr('x', -innerLeftMargin)
-  .attr('y', -20)
+  .attr('y', statOffset)
   .attr('dy', '0.32em')
   .attr('text-anchor', 'start')
 
 plotG
   .append('text')
   .attr('x', xScale(1))
-  .attr('y', -20)
+  .attr('y', statOffset)
   .attr('dy', '0.32em')
   .attr('text-anchor', 'end')
   .attr('font-size', '0.9em')
@@ -126,11 +160,13 @@ plotG
 //
 // stat label
 //
+const smDict = {OR: 'Odds ratio', RR: 'Risk ratio'}
+
 plotG
   .append('text')
-  .text(`${data[0].sm} [95% CI]`)
+  .text(`${smDict[data[0].sm]} [95% CI]`)
   .attr('x', -innerLeftMargin * 0.6)
-  .attr('y', -20)
+  .attr('y', statOffset)
   .attr('dy', '0.32em')
   .attr('text-anchor', 'start')
 
