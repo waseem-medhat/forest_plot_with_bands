@@ -42,11 +42,13 @@ ui <- fluidPage(
   fluidRow(
     column(
       6, 
-      h4('Treatment groups'), p('Intensive antihypertensive therapy (treatment) vs. standard of care (control)')
+      h4('Treatment groups'),
+      p('Intensive antihypertensive therapy (treatment) vs. standard of care (control)')
     ),
     column(
       6,
-      h4('Outcome measure'), p('Responder analysis - patients with controlled systolic blood pressure at 1 year (≤ 120 mmHg)'),
+      h4('Outcome measure'),
+      p('Responder analysis - patients with controlled systolic blood pressure at 1 year (≤ 120 mmHg)'),
     ),
   ),
   
@@ -63,7 +65,7 @@ ui <- fluidPage(
         )
       ),
       column(
-        4,
+        5,
         sliderInput(
           'd3_width',
           'Plot width:',
@@ -75,7 +77,7 @@ ui <- fluidPage(
         )
       ),
       column(
-        4,
+        5,
         sliderInput(
           'd3_height',
           'Plot height:',
@@ -85,15 +87,11 @@ ui <- fluidPage(
           max = 800,
           post = ' px'
         )
-      ),
-      column(2, actionButton('visualize', 'Visualize'))
+      )
     )
   ),
   
-  div(
-    id ='forest-container',
-    d3Output('d3Forest')
-  ),
+  div(id ='forest-container', style = 'min-height: 350px;', d3Output('d3Forest')),
   
   hr(),
   tags$footer(
@@ -108,22 +106,19 @@ ui <- fluidPage(
 server <- function(input, output) {
   observe_helpers()
   
-  metadata <- eventReactive(input$visualize, {
-    readRDS(
+  observe({
+    metadata <- readRDS(
       sprintf('data/metadata_%s.rds', input$summary_measure)
-    )
-  })
-  
-  observeEvent(input$visualize, {
+    )    
     removeUI('#d3Forest')
     insertUI(
       selector = '#forest-container',
-      where = 'beforeEnd',
+      where = 'afterBegin',
       ui = d3Output('d3Forest', height = input$d3_height, width = input$d3_width)
     )
     
     output$d3Forest <- renderD3({
-      r2d3(metadata(), script = 'src/forestWithBands.js')
+      r2d3(metadata, script = 'src/forestWithBands.js')
     })
     
   })

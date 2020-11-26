@@ -7,6 +7,8 @@
 // NOTE: This script is built to be used with R through the package R2D3 as
 //       it depends on values provided by the package (svg, width, height)
 
+// DEMO: https://waseem-medhat.shinyapps.io/forest_plot_with_bands/
+
 const margin = { top: 35, right: 20, bottom: 30, left: 350 };
 const innerWidth = width - margin.right - margin.left;
 const innerHeight = height - margin.top - margin.bottom;
@@ -30,7 +32,7 @@ const yScale = d3.scalePoint()
 const widthScale = d3.scaleLinear()
   .domain(d3.extent(data, d => d.n))
   .range([10, 17])
-  
+
 const plotG = svg
   .append('g')
   .attr('transform', `translate(${margin.left},${margin.top})`);
@@ -58,7 +60,7 @@ plotG
 	.attr('width', (d) => xScale(d.hi) - xScale(d.lo))
 	.attr('height', innerHeight)
 	.attr('opacity', 0.05 + (1 / data.length))
-	
+
 //
 // studies
 //
@@ -91,7 +93,7 @@ textG
   .attr('y', (d) => yScale(d.STUDYID))
   .attr('dy', '0.32em')
   .attr('text-anchor', 'start')
-    
+
 textG
   .append('text')
   .text(d => (
@@ -100,7 +102,7 @@ textG
   .attr('x', -innerLeftMargin * 0.6)
   .attr('y', (d) => yScale(d.STUDYID))
   .attr('dy', '0.32em')
-  	
+
 //
 // ID label
 //
@@ -179,7 +181,7 @@ xAxis
   .attr('y2', 10)
   .attr('stroke', '#555')
   .attr('stroke-width', '2')
-  
+
 //
 // y axis line
 //
@@ -196,13 +198,13 @@ plotG
 pooledG = plotG
   .append('g')
   .attr('transform', `translate(0,${yScale.step() / 4 })`)
-  
+
 pooledGSub = pooledG
   .selectAll('g')
   .data(data.filter((_,i) => i >= data.length - 2))
   .enter()
   .append('g')
-  
+
 pooledGSub
   .append('polygon')
   .classed('mark', true)
@@ -220,7 +222,7 @@ pooledGSub
   .attr('y', (d) => yScale(d.STUDYID))
   .attr('dy', '0.32em')
   .attr('text-anchor', 'start')
-    
+
 pooledGSub
   .append('text')
   .text(d => (
@@ -229,4 +231,3 @@ pooledGSub
   .attr('x', -innerLeftMargin * 0.6)
   .attr('y', (d) => yScale(d.STUDYID))
   .attr('dy', '0.32em')
-  	
