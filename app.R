@@ -10,12 +10,21 @@ ui <- fluidPage(
     body {
       margin: 10px 20px;
     }
-    .shinyhelper-container i {
-      font-size: 20px;
-    }
     footer {
       padding: 5px;
       text-align: right;
+    }
+    .shinyhelper-container i {
+      font-size: 20px;
+    }
+    #control-panel {
+      display: flex;
+      align-items: center;
+    }
+    #forest-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   '),
   
@@ -30,42 +39,68 @@ ui <- fluidPage(
     )
   ),
   
-  sidebarLayout(
-    sidebarPanel(
-      h4('Treatment group'),
-      p('Intensive antihypertensive therapy'),
-      hr(),
-      h4('Control group'),
-      p('Standard of care'),
-      hr(),
-      h4('Outcome measure'),
-      p('Responder analysis - patients with controlled systolic blood pressure at 1 year (≤ 120 mmHg)'),
-      hr(),
-      radioButtons(
-        'summary_measure',
-        label = 'Choose summary measure:',
-        choices = list('Odds ratio' = 'or', 'Risk ratio' = 'rr')
-      ),
-      hr(),
-      actionButton('visualize', 'Visualize')
+  fluidRow(
+    column(
+      6, 
+      h4('Treatment groups'), p('Intensive antihypertensive therapy (treatment) vs. standard of care (control)')
     ),
-    
-    mainPanel(
-      fluidRow(
-        div(
-          id ='forestContainer',
-          style = 'height: 420px;',
-          d3Output('d3Forest')
-        ),
-        hr(),
-        tags$footer(
-          'Built by Waseem Medhat for ',
-          a(
-            'Wonderful Wednesdays',
-            href = 'https://psiweb.org/sigs-special-interest-groups/visualisation/welcome-to-wonderful-wednesdays'
-          )
+    column(
+      6,
+      h4('Outcome measure'), p('Responder analysis - patients with controlled systolic blood pressure at 1 year (≤ 120 mmHg)'),
+    ),
+  ),
+  
+  wellPanel(
+    style = 'margin: 20px auto;',
+    fluidRow(
+      id = 'control-panel',
+      column(
+        2,
+        radioButtons(
+          'summary_measure',
+          label = 'Choose summary measure:',
+          choices = list('Odds ratio' = 'or', 'Risk ratio' = 'rr')
         )
-      )
+      ),
+      column(
+        4,
+        sliderInput(
+          'd3_width',
+          'Plot width:',
+          value = 900,
+          min = 650,
+          max = 1300,
+          step = 10,
+          post = ' px'
+        )
+      ),
+      column(
+        4,
+        sliderInput(
+          'd3_height',
+          'Plot height:',
+          value = 500,
+          min = 350,
+          step = 10,
+          max = 800,
+          post = ' px'
+        )
+      ),
+      column(2, actionButton('visualize', 'Visualize'))
+    )
+  ),
+  
+  div(
+    id ='forest-container',
+    d3Output('d3Forest')
+  ),
+  
+  hr(),
+  tags$footer(
+    'Built by Waseem Medhat for ',
+    a(
+      'Wonderful Wednesdays',
+      href = 'https://psiweb.org/sigs-special-interest-groups/visualisation/welcome-to-wonderful-wednesdays'
     )
   )
 )
@@ -82,9 +117,9 @@ server <- function(input, output) {
   observeEvent(input$visualize, {
     removeUI('#d3Forest')
     insertUI(
-      selector = '#forestContainer',
+      selector = '#forest-container',
       where = 'beforeEnd',
-      ui = d3Output('d3Forest', height = '420px')
+      ui = d3Output('d3Forest', height = input$d3_height, width = input$d3_width)
     )
     
     output$d3Forest <- renderD3({
