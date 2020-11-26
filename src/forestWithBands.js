@@ -161,20 +161,25 @@ plotG
 //
 xAxis = plotG.append('g')
 
+const xTicks = [0.1, 0.5, 0.8, 1, 5, 10].filter(t => xScale(t) > 0)
+
 xAxis
+  .selectAll('text')
+  .data(xTicks)
+  .enter()
   .append('text')
-  .attr('x', xScale(1))
+  .attr('x', d => xScale(d))
   .attr('y', innerHeight + 15)
   .attr('dy', '0.32em')
   .attr('text-anchor', 'middle')
-  .text("1")
+  .text(d => d)
 
 //
 // x axis ticks  
 //
 xAxis
   .selectAll('line')
-  .data([1])
+  .data(xTicks)
   .enter()
   .append('line')
   .attr('transform', d => `translate(${xScale(d)},${innerHeight - 5})`)
