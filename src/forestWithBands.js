@@ -68,7 +68,7 @@ plotG
   .attr('y', subtitleOffset)
   .attr('dy', '1.2em')
   .attr('font-size', '1.1em')
-  .text('(≤ 120 mmHg)')
+  .html('(&le; 120 mmHg)')
 
 
 //
