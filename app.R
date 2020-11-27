@@ -31,10 +31,7 @@ ui <- fluidPage(
   
   div(class = 'page-header',
       h1('Visualizing Heterogeneity in Meta-Analyses'),
-      helper(content = 'interpretation',
-             colour = 'teal',
-             buttonLabel = 'OK',
-             h3('Forest Plot with Heterogeneity Bands'))),
+      h3('Forest Plot with Heterogeneity Bands')),
   
   wellPanel(style = 'margin: 20px auto;',
             fluidRow(id = 'control-panel',
@@ -60,9 +57,12 @@ ui <- fluidPage(
                                         max = 800,
                                         post = ' px')))),
   
-  div(id ='forest-container',
-      style = 'min-height: 350px;',
-      d3Output('d3Forest')),
+  helper(content = 'interpretation',
+         colour = 'teal',
+         buttonLabel = 'OK',
+         div(id ='forest-container',
+             style = 'min-height: 350px;',
+             d3Output('d3Forest'))),
   
   hr(),
   tags$footer('Built by',
