@@ -80,7 +80,7 @@ server <- function(input, output) {
       sprintf('data/metadata_%s.rds', input$summary_measure)
     )    
     
-    removeUI('#d3Forest')
+    removeUI('#d3Forest', immediate = TRUE)
     
     insertUI(
       selector = '#forest-container',
