@@ -20,3 +20,13 @@ Low heterogeneity:
 High heterogeneity:
 
 ![high heterogeneity](helpfiles/high_het.png)
+
+## Technologies
+
+The visualization is built with [D3.js](https://d3js.org/) and rendered in a
+[Shiny](https://shiny.rstudio.com/) app using
+[R2D3](https://rstudio.github.io/r2d3/).
+
+## Live demo
+
+Visit this link: https://waseem-medhat.shinyapps.io/forest_plot_with_bands/
