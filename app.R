@@ -9,7 +9,7 @@ ui <- fluidPage(
 
   tags$style('
     body {
-      margin: 10px 20px;
+      margin: auto 30px;
     }
     footer {
       padding: 5px;
@@ -44,7 +44,7 @@ ui <- fluidPage(
                             sliderInput('d3_width',
                                         'Plot width:',
                                         value = 850,
-                                        min = 650,
+                                        min = 750,
                                         max = 1300,
                                         step = 10,
                                         post = ' px')),
